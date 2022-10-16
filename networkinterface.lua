@@ -1,7 +1,7 @@
 root_path      = "/"
 paths 	       = { "lib": root_path + "lib" }
-libs_to_import = ["crypto"] // Here add the libs to be imported that you want to use
-libs           = {} // Here will be the lib's availables for use, and the key will be the same than above
+libs_to_import = ["crypto"]
+libs           = {}
 net_card       = "wlan0"
 
 
