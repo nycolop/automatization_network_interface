@@ -1,4 +1,4 @@
-// Setup
+s// Setup
 root_path = "/"
 paths = { "lib": root_path + "lib" }
 libs_to_import = ["crypto"] // Here add the libs to be imported that you want to use
