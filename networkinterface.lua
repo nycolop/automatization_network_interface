@@ -1,14 +1,14 @@
-// Setup
-root_path = "/"
-paths = { "lib": root_path + "lib" }
+root_path      = "/"
+paths 	       = { "lib": root_path + "lib" }
 libs_to_import = ["crypto"] // Here add the libs to be imported that you want to use
-libs = {} // Here will be the lib's availables for use, and the key will be the same than above
-net_card = "wlan0"
+libs           = {} // Here will be the lib's availables for use, and the key will be the same than above
+net_card       = "wlan0"
 
-// Helpers
+
+
 import_lib = function(lib)
 	lib_extension = ".so"
-	libs[lib] = include_lib(paths.lib + "/" + lib + lib_extension)
+	libs[lib]     = include_lib(paths.lib + "/" + lib + lib_extension)
 	
 	if libs[lib] then
 		return libs[lib]
@@ -54,10 +54,9 @@ end function
 terminal_space = function()
 	print(" ")
 end function
-
-
-
-// Importing libs
+										
+										
+										
 terminal_space
 for lib_to_import in libs_to_import
 	print("Trying to import lib: " + lib_to_import)
