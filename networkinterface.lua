@@ -1,8 +1,9 @@
 root_path      = "/"
-paths 	       = { "lib": root_path + "lib" }
+paths 	       = { "lib": root_path + "lib", "home": root_path + "home" }
 libs_to_import = ["crypto"]
 libs           = {}
 net_card       = "wlan0"
+computer 	   = get_shell.host_computer
 
 
 
@@ -71,8 +72,48 @@ initied_monitor = monitor_mode(true)
 handle_error(initied_monitor, 2)
 
 terminal_space
-user_bssid = user_input("Insert interface bssid: ")
-user_essid = user_input("Insert interface essid: ")
-libs.crypto.aireplay(user_bssid, user_essid, 10000)
+networks = computer.wifi_networks(net_card)
+
+info = "ID BSSID PWR ESSID"
+counter = 1
+for network in networks
+	info = info + "\n" + counter + " " + network
+	counter = counter + 1
+end for
+print(format_columns(info))
+terminal_space
+
+interface_id = user_input("Select interface (Press ID number): ", false, true)
+interface_splitted = networks[interface_id.val - 1].split(" ")
+print("Desired network: " + interface_splitted[2] + ", preparing to send packets")
+
+terminal_space
+
+packets_info = "PRESS STRENGTH\n1 7.000\n2 8.000\n3 9.000\n4 10.000"
+print(format_columns(packets_info))
+packet_strength_input = user_input("Select strength of network packets (Press ID number): ", false, true)
+packet_strength = 0
+
+if packet_strength_input == "1" then
+	packet_strength = 7000
+else if packet_strength_input == "2" then
+	packet_strength = 8000
+else if packet_strength_input == "3" then
+	packet_strength = 9000
+else if packet_strength_input == "4" then
+	packet_strength = 10000
+end if
+
+print("Selected strength: " + packet_strength)
+
+terminal_space
+
+print("Sending packets to desired network, please wait, it will end automatically")
+libs.crypto.aireplay(interface_splitted[0], interface_splitted[2], packet_strength)
+
+terminal_space
+
+network_password = libs.crypto.aircrack(paths.home + "/file.cap")
+print("Succesfully cracked, password is: ", network_password)
 
 monitor_mode(false)
